@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffffff">
+<title>Payment Claim Center</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f7f7f7;
+  color: #202630;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: #fff;
+  padding: 22px 7%;
+  border-bottom: 1px solid #eee;
+}
+
+.logo {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.logo span {
+  color: #b48600;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 45px 18px;
+}
+
+.claim-card {
+  width: 100%;
+  max-width: 470px;
+  background: #fff;
+  border: 1px solid #eeeeee;
+  border-radius: 18px;
+  padding: 38px;
+  text-align: center;
+  box-shadow: 0 8px 35px rgba(0,0,0,.035);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff8df;
+  color: #987000;
+  padding: 9px 14px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .6px;
+}
+
+.dot {
+  height: 7px;
+  width: 7px;
+  background: #dca800;
+  border-radius: 50%;
+}
+
+h1 {
+  font-size: 29px;
+  margin-top: 24px;
+  letter-spacing: -1px;
+}
+
+.description {
+  color: #777f89;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+.amount-box {
+  background: #fafafa;
+  border: 1px solid #eeeeee;
+  border-radius: 15px;
+  padding: 28px 15px;
+  margin: 28px 0;
+}
+
+.money-icon {
+  width: 55px;
+  height: 55px;
+  background: #f0b90b;
+  color: #171717;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  font-weight: 800;
+  margin: 0 auto 18px;
+}
+
+.amount-label {
+  color: #7d858e;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+}
+
+.amount {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin-top: 9px;
+  color: #202630;
+}
+
+.currency {
+  color: #b48600;
+}
+
+.instruction {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.instruction h2 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.instruction p {
+  font-size: 13px;
+  color: #7d858e;
+  line-height: 1.7;
+}
+
+.claim-button {
+  display: block;
+  width: 100%;
+  padding: 17px;
+  background: #f0b90b;
+  color: #181818;
+  border-radius: 9px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  transition: .2s ease;
+}
+
+.claim-button:hover {
+  background: #dba500;
+  transform: translateY(-2px);
+}
+
+.security {
+  color: #9299a1;
+  font-size: 11px;
+  margin-top: 19px;
+  line-height: 1.6;
+}
+
+footer {
+  padding: 22px;
+  text-align: center;
+  color: #9299a1;
+  font-size: 12px;
+}
+
+@media(max-width:480px) {
+  header {
+    padding: 19px 22px;
+  }
+
+  main {
+    padding: 28px 15px;
+  }
+
+  .claim-card {
+    padding: 29px 21px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .amount {
+    font-size: 40px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Payment<span> Center</span></div>
+</header>
+
+<main>
+  <section class="claim-card">
+
+    <div class="status">
+      <span class="dot"></span>
+      PAYMENT AWAITING CLAIM
+    </div>
+
+    <h1>Your Payment Is Ready</h1>
+
+    <p class="description">
+      Review the payment details below and continue
+      to the claim process.
+    </p>
+
+    <div class="amount-box">
+
+      <div class="money-icon">$</div>
+
+      <div class="amount-label">
+        Example amount awaiting claim
+      </div>
+
+      <div class="amount">
+        <span class="currency">$</span>256.00
+      </div>
+
+    </div>
+
+    <div class="instruction">
+      <h2>Complete the following steps to claim</h2>
+      <p>
+        Continue to the next page to review the
+        claim requirements and payment information.
+      </p>
+    </div>
+
+    <a href="index1.html" class="claim-button">
+      CLAIM NOW →
+    </a>
+
+
+  </section>
+</main>
+
+<footer>
+  © 2026 Payment Center. All rights reserved.
+</footer>
+
+</body>
+</html>

